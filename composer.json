@@ -1,0 +1,25 @@
+{
+    "name": "find.co/vote",
+    "description" : "WP Article voting plugin",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "version": "1.0.0",
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "authors": [
+        {
+            "name": "James Ramroop",
+            "homepage": "https://github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jamm\\": [ "includes/Classes" ]
+        }
+    },
+    "keywords": [
+        "wordpress", "voting", "article", "rating"
+    ]
+}
