@@ -5,7 +5,7 @@
 
     </span>
     <div class="btns">
-        <button type="button" id="up" class="up voted" data-id="<?php the_ID();?>" data-action="up">
+        <button type="button" id="up" class="up" data-id="<?php the_ID();?>" data-action="up">
             <div>
                 <span class="bg"></span>
                 <span id="vote-up-label"><?php _e( 'Yes', 'findco-vote' );?></span>

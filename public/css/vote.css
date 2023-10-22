@@ -51,9 +51,8 @@
     border-color: red;
 }
 #findco-vote button.voted {
-    border: 2px solid #0066cc;
+    border-color: #0066cc;
     color: #0066cc;
-    font-weight: bold;
 }
 #findco-vote button.voted span.bg {
     background-color: #0066cc;

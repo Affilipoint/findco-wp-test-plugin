@@ -50,6 +50,7 @@ add_action( 'admin_menu', [ $findcoVote, 'settingsMenu' ] );
 add_action( 'wp_footer', [ $findcoVote, 'enqueueStatisAssets' ] );
 add_action( 'wp_ajax_vote_article', [ $findcoVote, 'voteArticle' ] );
 add_action( 'wp_ajax_nopriv_vote_article', [ $findcoVote, 'voteArticle' ] );
+add_action( 'add_meta_boxes', [ $findcoVote, 'votes_meta_box' ] );
 
 // Filters
 //add_filter( 'plugin_action_links_igniter-auth/index.php', array($igniterAuth, 'settingsLink') );

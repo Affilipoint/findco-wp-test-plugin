@@ -7,6 +7,24 @@ namespace Jamm;
 
 class FindcoVote {
 
+    public function votes_meta_box() {
+        
+        add_meta_box( 'findco_vote_meta_box', __( 'Helpful Article?', 'findco-vote' ), [ &$this, 'votes_meta_box_callback'], 'post', 'side' );
+    }
+
+    public function votes_meta_box_callback( $post, $box ) {
+
+        $metaBoxTpl = JAMM_PLUGIN_PATH . "includes/templates/metaBoxTpl.php";
+
+        $votes = get_post_meta($post->ID, 'findco_votes', true);
+
+        $data['votes_count'] = ( !empty( $votes['votes_count'] ) ? $votes['votes_count'] : 0 );
+        $data['votes_up'] = ( !empty( $votes['votes_up'] ) ? $votes['votes_up'] : 0 );
+        $data['votes_down'] = ( !empty( $votes['votes_down'] ) ? $votes['votes_down'] : 0 );
+
+        load_template( $metaBoxTpl, true, $data );
+    }
+
     public function voteArticle() {
 
         if ( !wp_verify_nonce( $_REQUEST[ 'nonce' ], JAMM_NONCE_KEY ) ) {
@@ -35,7 +53,7 @@ class FindcoVote {
                 $data['votes_up'] = ( !empty( $votes['votes_up'] ) ? $votes['votes_up'] : 0 );
                 $data['votes_down'] = ( !empty( $votes['votes_down'] ) ? $votes['votes_down'] : 0 );
             }
-            
+
             $data = [
                 'votes_count' => $data['votes_count']+1,
                 'votes_up' => ( $action == "up" ? $data['votes_up']+1 : $data['votes_up'] ),
@@ -60,28 +78,34 @@ class FindcoVote {
 
     public function enqueueStatisAssets() {
 
-        $css = @file_get_contents( JAMM_PLUGIN_PATH . "public/css/vote.css" );
+        $minifier = new AssetsMinifier;
 
-        if( $css ) {
+        if(is_single() 
+            && !is_home()
+        ) {
+            $css = @file_get_contents( JAMM_PLUGIN_PATH . "public/css/vote.css" );
 
-            $css = str_replace( "{{PLUGIN_URL}}", JAMM_PLUGIN_URL, $css );
-            wp_register_style( 'findco-vote-css', false );
-	        wp_enqueue_style( 'findco-vote-css' );
-	        wp_add_inline_style( 'findco-vote-css', $css );
-        }
+            if( $css ) {
 
-        $js = @file_get_contents( JAMM_PLUGIN_PATH . "public/js/vote.js" );
+                $css = str_replace( "{{PLUGIN_URL}}", JAMM_PLUGIN_URL, $css );
+                wp_register_style( 'findco-vote-css', false );
+                wp_enqueue_style( 'findco-vote-css' );
+                wp_add_inline_style( 'findco-vote-css', $minifier->minify_css( $css ) );
+            }
 
-        if( $js ) {
+            $js = @file_get_contents( JAMM_PLUGIN_PATH . "public/js/vote.js" );
 
-            wp_register_script( 'findco-vote-js', false, [ 'jquery' ] );
-            wp_enqueue_script( 'findco-vote-js' );
-            wp_localize_script( 'findco-vote-js', 'fvc_object', [ 
-                'ajax_url' => admin_url( 'admin-ajax.php' ), 
-                'nonce' => wp_create_nonce( JAMM_NONCE_KEY ) ] 
-            );
+            if( $js ) {
 
-            wp_add_inline_script( 'findco-vote-js', $js );
+                wp_register_script( 'findco-vote-js', false, [ 'jquery' ] );
+                wp_enqueue_script( 'findco-vote-js' );
+                wp_localize_script( 'findco-vote-js', 'fvc_object', [ 
+                    'ajax_url' => admin_url( 'admin-ajax.php' ), 
+                    'nonce' => wp_create_nonce( JAMM_NONCE_KEY ) ] 
+                );
+
+                wp_add_inline_script( 'findco-vote-js', $minifier->minify_js( $js ) );
+            }
         }
     }
 
