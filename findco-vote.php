@@ -42,18 +42,19 @@ define( 'JAMM_NONCE_KEY', 'findco_vote_single-post' );
 // Includes
 include_once JAMM_PLUGIN_PATH . "/vendor/autoload.php";
 
-$findcoVote = new FindcoVote();
+$findcoVote = new FindcoVote;
 
 // Actions
-//add_action( 'init', array( $igniterAuth, 'lock' ) );
 add_action( 'admin_menu', [ $findcoVote, 'settingsMenu' ] );
-add_action( 'wp_footer', [ $findcoVote, 'enqueueStatisAssets' ] );
+add_action( 'wp_footer', [ $findcoVote, 'enqueueStaticAssets' ] );
 add_action( 'wp_ajax_vote_article', [ $findcoVote, 'voteArticle' ] );
 add_action( 'wp_ajax_nopriv_vote_article', [ $findcoVote, 'voteArticle' ] );
 add_action( 'add_meta_boxes', [ $findcoVote, 'votes_meta_box' ] );
 
 // Filters
-//add_filter( 'plugin_action_links_igniter-auth/index.php', array($igniterAuth, 'settingsLink') );
 add_filter( 'the_content' , [ $findcoVote, 'voteBtns' ] );
+add_filter( 'plugin_action_links_findco-vote/findco-vote.php', [ $findcoVote, 'settingsLink' ] );
 
 // Hooks
+register_activation_hook( __FILE__, [ $findcoVote, 'activatePlugin' ] ); // set default options on activation
+register_uninstall_hook( __FILE__, [ $findcoVote, 'uninstallPlugin' ] ); // uninstall the plugin hook

@@ -1,6 +1,8 @@
 window.onload = function() {
     if ( window.jQuery ) {  
         
+        checkVote();
+        
         // jQuery is loaded  
         jQuery( document ).on( 'click', '#findco-vote button', function( e ) {
             e.preventDefault();          
@@ -41,8 +43,6 @@ window.onload = function() {
                  });
             }
         });
-
-        checkVote();
     } 
     else {
         let elem = document.querySelector( '#findco-vote' );

@@ -76,7 +76,7 @@ class FindcoVote {
         wp_send_json( $response, $status );
     }
 
-    public function enqueueStatisAssets() {
+    public function enqueueStaticAssets() {
 
         $minifier = new AssetsMinifier;
 
@@ -118,6 +118,8 @@ class FindcoVote {
             && file_exists( $voteBtnsTpl ) 
         ) {
         
+            $args = get_option( 'findco_vote_options' );
+
             $voteBtnsHtml = '';
             ob_start();
             include $voteBtnsTpl;
@@ -146,7 +148,90 @@ class FindcoVote {
 
         if( file_exists( $path ) ) {
 
-            load_template( $path );
+            $data = get_option( 'findco_vote_options' );
+
+            if ( ! empty( $_POST['submit'] ) 
+                && wp_verify_nonce( $_POST['_wpnonce'], 'findco-vote-settings-page' ) 
+            ) 
+            {
+                $data['fcv_feedback_text'] = ( 
+                    !empty( $_POST['fcv_feedback_text'] ) ? 
+                        sanitize_text_field( $_POST['fcv_feedback_text'] ) 
+                        : $data['fcv_feedback_text'] 
+                );
+
+                $data['fcv_feedback_complete_text'] = ( 
+                    !empty( $_POST['fcv_feedback_complete_text'] ) ? 
+                        sanitize_text_field( $_POST['fcv_feedback_complete_text'] ) 
+                        : $data['fcv_feedback_complete_text'] 
+                );
+
+                $data['fcv_btn_yes'] = ( 
+                    !empty( $_POST['fcv_btn_yes'] ) ? 
+                        sanitize_text_field( $_POST['fcv_btn_yes'] ) 
+                        : $data['fcv_btn_yes'] 
+                );
+
+                $data['fcv_btn_no'] = ( 
+                    !empty( $_POST['fcv_btn_no'] ) ? 
+                        sanitize_text_field( $_POST['fcv_btn_no'] ) 
+                        : $data['fcv_btn_no'] 
+                );
+
+                $data['fcv_delete_data'] = ( !empty( $_POST['fcv_delete_data'] ) ? 1 : 0 );
+
+                update_option( 'findco_vote_options', $data );
+
+                echo '<div class="notice notice-success"><p><b>' . __( 'Settings saved.', 'findco-vote' ). '</b></p></div>';
+            }
+
+            load_template( $path, true, $data );
         }
+    }
+    public function activatePlugin() {
+
+        $data['fcv_feedback_text'] = "Was this article helpful?";
+        $data['fcv_feedback_complete_text'] = "Thank you for your feedback";
+        $data['fcv_btn_yes'] = "Yes";
+        $data['fcv_btn_no'] = "No";
+        $data['fcv_delete_data'] = "0";
+
+        update_option( 'findco_vote_options', $data );
+    }
+
+    public function uninstallPlugin() {
+
+        $options = get_option( 'findco_vote_options' );
+
+        if( !empty( $options['fcv_delete_data'] ) && (int)$options['fcv_delete_data'] == 1 ) {
+
+            global $wpdb;
+
+            $wpdb->query(
+                $wpdb->prepare( "
+                    DELETE FROM $wpdb->postmeta WHERE meta_key = 'findco_votes'
+                " )
+            );
+
+            delete_option( 'findco_vote_options' );
+        }
+    }
+
+    public function settingsLink( $links ) 
+    {
+        $url = esc_url( add_query_arg(
+            'page',
+            'findco-vote-settings',
+            get_admin_url() . 'admin.php'
+        ) );
+        
+        $settings_link = "<a href='$url'>" . __( 'Settings', 'findco-vote' ) . '</a>';
+        
+        array_push(
+            $links,
+            $settings_link
+        );
+
+        return $links;
     }
 }
