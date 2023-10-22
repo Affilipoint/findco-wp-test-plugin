@@ -37,6 +37,7 @@ use Jamm\FindcoVote;
 define( 'JAMM_VERSION', '1.0.0' );
 define( 'JAMM_PLUGIN_PATH', plugin_dir_path(__FILE__) );
 define( 'JAMM_PLUGIN_URL', plugin_dir_url(__FILE__) );
+define( 'JAMM_NONCE_KEY', 'findco_vote_single-post' );
 
 // Includes
 include_once JAMM_PLUGIN_PATH . "/vendor/autoload.php";
@@ -47,6 +48,8 @@ $findcoVote = new FindcoVote();
 //add_action( 'init', array( $igniterAuth, 'lock' ) );
 add_action( 'admin_menu', [ $findcoVote, 'settingsMenu' ] );
 add_action( 'wp_footer', [ $findcoVote, 'enqueueStatisAssets' ] );
+add_action( 'wp_ajax_vote_article', [ $findcoVote, 'voteArticle' ] );
+add_action( 'wp_ajax_nopriv_vote_article', [ $findcoVote, 'voteArticle' ] );
 
 // Filters
 //add_filter( 'plugin_action_links_igniter-auth/index.php', array($igniterAuth, 'settingsLink') );

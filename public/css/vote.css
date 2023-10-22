@@ -25,19 +25,22 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center center;
+    background-color: #333;
 }
-#findco-vote button:hover  span.bg {
-    -webkit-filter: invert(100%);
-    filter: invert(100%);
+#findco-vote button.up:hover span.bg, 
+#findco-vote button.down:hover span.bg {
+    background-color: #fff;
 }
 #findco-vote button:hover {
-    color: #fff;
+    color: #fff !important;
 }
 #findco-vote button.up span.bg {
-    background-image: url('{{PLUGIN_URL}}public/images/thumb-up.svg');  
+    -webkit-mask-image: url('{{PLUGIN_URL}}public/images/thumb-up.svg');
+    mask-image: url('{{PLUGIN_URL}}public/images/thumb-up.svg');
 }
 #findco-vote button.down span.bg {
-    background-image: url('{{PLUGIN_URL}}public/images/thumb-down.svg');  
+    -webkit-mask-image: url('{{PLUGIN_URL}}public/images/thumb-down.svg');
+    mask-image: url('{{PLUGIN_URL}}public/images/thumb-down.svg'); 
 }
 #findco-vote button.up:hover {
     background-color: green;
@@ -47,6 +50,15 @@
     background-color: red;
     border-color: red;
 }
+#findco-vote button.voted {
+    border: 2px solid #0066cc;
+    color: #0066cc;
+    font-weight: bold;
+}
+#findco-vote button.voted span.bg {
+    background-color: #0066cc;
+}
+
 @media only screen and (max-width: 600px) {
     #findco-vote { 
         display: block; 
