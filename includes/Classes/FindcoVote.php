@@ -7,11 +7,26 @@ namespace Jamm;
 
 class FindcoVote {
 
+    public function enqueueStatisAssets() {
+
+        $css = @file_get_contents( JAMM_PLUGIN_PATH . "public/css/vote.css" );
+
+        if( $css ) {
+
+            $css = str_replace( "{{PLUGIN_URL}}", JAMM_PLUGIN_URL, $css );
+            wp_register_style( 'findco-vote-css', false );
+	        wp_enqueue_style( 'findco-vote-css' );
+	        wp_add_inline_style( 'findco-vote-css', $css );
+        }
+    }
+
     public function voteBtns( $content ) {
+
+        $voteBtnsTpl = JAMM_PLUGIN_PATH . "includes/templates/voteBtns.php";
 
         if(is_single() 
             && !is_home() 
-            && file_exists( $voteBtnsTpl = JAMM_PLUGIN_PATH . "includes/templates/voteBtns.php" ) 
+            && file_exists( $voteBtnsTpl ) 
         ) {
         
             $voteBtnsHtml = '';
@@ -19,7 +34,7 @@ class FindcoVote {
             include $voteBtnsTpl;
             $voteBtnsHtml = ob_get_contents();
             ob_end_clean();
-            
+
             $content .= $voteBtnsHtml;
         }
 
@@ -38,8 +53,10 @@ class FindcoVote {
 
     public function settingsPage() {
 
-        if( $path = file_exists( JAMM_PLUGIN_PATH . "includes/templates/adminSettings.php" ) ) {
-            
+        $path = JAMM_PLUGIN_PATH . "includes/templates/adminSettings.php";
+
+        if( file_exists( $path ) ) {
+
             load_template( $path );
         }
     }
