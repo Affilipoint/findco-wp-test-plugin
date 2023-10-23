@@ -249,7 +249,7 @@ class FindcoVote {
         }
     }
 
-    public static function uninstallPlugin() {
+    public function uninstallPlugin() {
 
         // get settings options value
         $options = get_option( 'findco_vote_options' );
