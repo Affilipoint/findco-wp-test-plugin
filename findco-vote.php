@@ -34,27 +34,29 @@ use Jamm\FindcoVote;
 // disallow direct access to file
 ! defined( 'ABSPATH' ) ? exit : '';
 
-define( 'JAMM_VERSION', '1.0.0' );
-define( 'JAMM_PLUGIN_PATH', plugin_dir_path(__FILE__) );
-define( 'JAMM_PLUGIN_URL', plugin_dir_url(__FILE__) );
-define( 'JAMM_NONCE_KEY', 'findco_vote_single-post' );
+// defining constants
+define( 'JAMM_VERSION', '1.0.0' ); // plugin version
+define( 'JAMM_PLUGIN_PATH', plugin_dir_path(__FILE__) ); // plugin path
+define( 'JAMM_PLUGIN_URL', plugin_dir_url(__FILE__) ); // plugin URL
+define( 'JAMM_NONCE_KEY', 'findco_vote_single-post' ); // nonce secret
 
 // Includes
 include_once JAMM_PLUGIN_PATH . "/vendor/autoload.php";
 
-$findcoVote = new FindcoVote;
+// class instantiation
+$findcoVote = new FindcoVote();
 
 // Actions
-add_action( 'admin_menu', [ $findcoVote, 'settingsMenu' ] );
-add_action( 'wp_footer', [ $findcoVote, 'enqueueStaticAssets' ] );
-add_action( 'wp_ajax_vote_article', [ $findcoVote, 'voteArticle' ] );
-add_action( 'wp_ajax_nopriv_vote_article', [ $findcoVote, 'voteArticle' ] );
-add_action( 'add_meta_boxes', [ $findcoVote, 'votes_meta_box' ] );
+add_action( 'admin_menu', [ $findcoVote, 'settingsMenu' ] ); // admin settings menu
+add_action( 'wp_footer', [ $findcoVote, 'enqueueStaticAssets' ] ); // enqueue css/js inline in footer
+add_action( 'wp_ajax_vote_article', [ $findcoVote, 'voteArticle' ] ); // ajax request for voting
+add_action( 'wp_ajax_nopriv_vote_article', [ $findcoVote, 'voteArticle' ] ); // ajax request for non logged in users
+add_action( 'add_meta_boxes', [ $findcoVote, 'votes_meta_box' ] ); // post meta box with votes count
 
 // Filters
-add_filter( 'the_content' , [ $findcoVote, 'voteBtns' ] );
-add_filter( 'plugin_action_links_findco-vote/findco-vote.php', [ $findcoVote, 'settingsLink' ] );
+add_filter( 'the_content' , [ $findcoVote, 'voteBtns' ] ); // add vote buttons at the end of post article
+add_filter( 'plugin_action_links_findco-vote/findco-vote.php', [ $findcoVote, 'settingsLink' ] ); // add a settings link under plugin name
 
 // Hooks
 register_activation_hook( __FILE__, [ $findcoVote, 'activatePlugin' ] ); // set default options on activation
-register_uninstall_hook( __FILE__, [ $findcoVote, 'uninstallPlugin' ] ); // uninstall the plugin hook
+register_uninstall_hook( __FILE__, FindcoVote::uninstallPlugin()  ); // uninstall the plugin hook

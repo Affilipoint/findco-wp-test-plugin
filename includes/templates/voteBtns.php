@@ -1,8 +1,11 @@
 <div id="findco-vote">
     <span class="text">
-        <span id="new-vote"><?php echo !empty( $args['fcv_feedback_text'] ) ? $args['fcv_feedback_text'] : 'Was this article helpful?';?></span>
-        <span id="voted" style="display: none;"><?php echo !empty( $args['fcv_feedback_complete_text'] ) ? $args['fcv_feedback_complete_text'] : 'Thank you for your feedback';?></span>
-
+        <span id="new-vote">
+            <?php echo !empty( $args['fcv_feedback_text'] ) ? $args['fcv_feedback_text'] : 'Was this article helpful?';?>
+        </span>
+        <span id="voted" style="display: none;">
+            <?php echo !empty( $args['fcv_feedback_complete_text'] ) ? $args['fcv_feedback_complete_text'] : 'Thank you for your feedback';?>
+        </span>
     </span>
     <div class="btns">
         <button type="button" id="up" class="up" data-id="<?php the_ID();?>" data-action="up">
