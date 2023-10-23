@@ -213,7 +213,7 @@ class FindcoVote {
                         : $data['fcv_btn_no'] 
                 );
 
-                $data['fcv_delete_data'] = ( !empty( $_POST['fcv_delete_data'] ) ? 1 : 0 );
+                $data['fcv_delete_data'] = ( !empty( $_POST['fcv_delete_data'] ) ? "1" : "0" );
 
                 // update settings in options table
                 update_option( 'findco_vote_options', $data );

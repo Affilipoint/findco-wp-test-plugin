@@ -59,4 +59,4 @@ add_filter( 'plugin_action_links_findco-vote/findco-vote.php', [ $findcoVote, 's
 
 // Hooks
 register_activation_hook( __FILE__, [ $findcoVote, 'activatePlugin' ] ); // set default options on activation
-register_uninstall_hook( __FILE__, FindcoVote::uninstallPlugin()  ); // uninstall the plugin hook
+register_uninstall_hook( __FILE__, 'FindcoVote::uninstallPlugin'  ); // uninstall the plugin hook
