@@ -55,8 +55,7 @@ add_action( 'add_meta_boxes', [$findcoVote, 'votes_meta_box'] ); // post meta bo
 
 // Filters
 add_filter( 'the_content' , [$findcoVote, 'voteBtns'] ); // add vote buttons at the end of post article
-add_filter( 'plugin_action_links_findco-vote/findco-vote.php', [$findcoVote, 'settingsLink'] ); // add a settings link under plugin name
+add_filter( 'plugin_action_links_' . basename( dirname( __FILE__ ) ) . '/findco-vote.php', [$findcoVote, 'settingsLink'] ); // add a settings link under plugin name
 
 // Hooks
 register_activation_hook( __FILE__, [$findcoVote, 'activatePlugin'] ); // set default options on activation
-register_uninstall_hook( __FILE__, 'FindcoVote::uninstallPlugin' ); // uninstall the plugin hook
