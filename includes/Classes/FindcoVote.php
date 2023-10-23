@@ -13,7 +13,13 @@ class FindcoVote {
     public function votes_meta_box() {
         
         // adds meta box to post edit page with callback function `votes_meta_box_callback`
-        add_meta_box( 'findco_vote_meta_box', __( 'Helpful Article?', 'findco-vote' ), [ &$this, 'votes_meta_box_callback'], 'post', 'side' );
+        add_meta_box( 
+            'findco_vote_meta_box', 
+            __( 'Helpful Article?', 'findco-vote' ), 
+            [ &$this, 'votes_meta_box_callback'], 
+            'post', 
+            'side' 
+        );
     }
 
     public function votes_meta_box_callback( $post, $box ) {
@@ -164,8 +170,8 @@ class FindcoVote {
 
         // adds a settings menu in WP Admin
         add_options_page( 
-            'Article Voting Settings', 
-            'Find.co Voting', 
+            __( 'Article Voting Settings', 'findco-vote' ), 
+            __( 'Find.co Voting', 'findco-vote' ), 
             'manage_options', 
             'findco-vote-settings', 
             [ &$this, 'settingsPage' ]
@@ -243,7 +249,7 @@ class FindcoVote {
         }
     }
 
-    static function uninstallPlugin() {
+    public static function uninstallPlugin() {
 
         // get settings options value
         $options = get_option( 'findco_vote_options' );

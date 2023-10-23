@@ -1,7 +1,8 @@
 window.onload = function() {
-    
+
     if ( window.jQuery ) {  
         
+        // if user has already voted, show results (data is available only during session)
         checkVote();
         
         // jQuery is loaded  
@@ -13,13 +14,19 @@ window.onload = function() {
             const helpful = jQuery('#new-vote');
             const msg = jQuery('#voted');  
 
+            // required parameters are present, send ajax request
             if( parseInt( pid ) > 0 && vote != "" ) {
 
                 jQuery.ajax({
                     type : "post",
                     dataType : "json",
                     url : fvc_object.ajax_url,
-                    data : { action: "vote_article", post_id : pid, vote: vote,  nonce: fvc_object.nonce },
+                    data : { 
+                        action: "vote_article", 
+                        post_id : pid, 
+                        vote: vote,  
+                        nonce: fvc_object.nonce 
+                    },
                     success: function(response) {
 
                        if(response.result.type == "success") {
@@ -50,6 +57,8 @@ window.onload = function() {
         });
     } 
     else {
+
+        // jQuery not available, hide voting UI
         let elem = document.querySelector( '#findco-vote' );
 
         if( elem ) {
@@ -59,6 +68,7 @@ window.onload = function() {
 
     }
 
+    // check if user has already voted on this article
     function checkVote() {
 
         let elem = jQuery('#up');
@@ -71,6 +81,7 @@ window.onload = function() {
 
                 let vote = JSON.parse(sessionStorage.getItem('vote-'+pid));
 
+                // yes user has already votes, show results UI
                 if( vote ) { 
 
                     jQuery('#new-vote').hide();

@@ -47,16 +47,16 @@ include_once JAMM_PLUGIN_PATH . "/vendor/autoload.php";
 $findcoVote = new FindcoVote();
 
 // Actions
-add_action( 'admin_menu', [ $findcoVote, 'settingsMenu' ] ); // admin settings menu
-add_action( 'wp_footer', [ $findcoVote, 'enqueueStaticAssets' ] ); // enqueue css/js inline in footer
-add_action( 'wp_ajax_vote_article', [ $findcoVote, 'voteArticle' ] ); // ajax request for voting
-add_action( 'wp_ajax_nopriv_vote_article', [ $findcoVote, 'voteArticle' ] ); // ajax request for non logged in users
-add_action( 'add_meta_boxes', [ $findcoVote, 'votes_meta_box' ] ); // post meta box with votes count
+add_action( 'admin_menu', [$findcoVote, 'settingsMenu'] ); // admin settings menu
+add_action( 'wp_footer', [$findcoVote, 'enqueueStaticAssets'] ); // enqueue css/js inline in footer
+add_action( 'wp_ajax_vote_article', [$findcoVote, 'voteArticle'] ); // ajax request for voting
+add_action( 'wp_ajax_nopriv_vote_article', [$findcoVote, 'voteArticle'] ); // ajax request for non logged in users
+add_action( 'add_meta_boxes', [$findcoVote, 'votes_meta_box'] ); // post meta box with votes count
 
 // Filters
-add_filter( 'the_content' , [ $findcoVote, 'voteBtns' ] ); // add vote buttons at the end of post article
-add_filter( 'plugin_action_links_findco-vote/findco-vote.php', [ $findcoVote, 'settingsLink' ] ); // add a settings link under plugin name
+add_filter( 'the_content' , [$findcoVote, 'voteBtns'] ); // add vote buttons at the end of post article
+add_filter( 'plugin_action_links_findco-vote/findco-vote.php', [$findcoVote, 'settingsLink'] ); // add a settings link under plugin name
 
 // Hooks
-register_activation_hook( __FILE__, [ $findcoVote, 'activatePlugin' ] ); // set default options on activation
-register_uninstall_hook( __FILE__, 'FindcoVote::uninstallPlugin'  ); // uninstall the plugin hook
+register_activation_hook( __FILE__, [$findcoVote, 'activatePlugin'] ); // set default options on activation
+register_uninstall_hook( __FILE__, 'FindcoVote::uninstallPlugin' ); // uninstall the plugin hook
