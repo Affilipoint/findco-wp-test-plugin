@@ -8,7 +8,7 @@ This plugin is part of the Senior WordPress Developer task for Find.co. The purp
 To install this plugin:
 
 1. Always make a backup for your content!
-2. Download the plugin from [the repository](https://)
+2. Download the plugin from [the repository](https://github.com/Affilipoint/findco-wp-test-plugin/releases/tag/1.0.0)
 3. Upload the plugin to the **/wp-content/plugins/** directory via FTP or WP Admin
 4. Go to "Plugins" in your WordPress admin, then click "Activate" next to the plugin name
 5. The plugin will now be active and the vote buttons will appear at the bottom of all post articles
