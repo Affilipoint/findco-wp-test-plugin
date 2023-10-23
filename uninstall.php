@@ -8,7 +8,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // Includes
-include_once JAMM_PLUGIN_PATH . "/vendor/autoload.php";
+include_once plugin_dir_path(__FILE__) . "/vendor/autoload.php";
 
 // class instantiation
 $findcoVote = new FindcoVote();
